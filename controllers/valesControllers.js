@@ -33,6 +33,20 @@ const getMethodById = async (req, res) => {
   }
 };
 
+const getLastSolicitudValeCont = async (req, res) => {
+  try {
+      const lastSolicitudVale = await solicitudValeModel.getLastSolicitudVale();
+      if (lastSolicitudVale) {
+          res.status(200).json(lastSolicitudVale);
+      } else {
+          res.status(404).json({ message: 'No se encontró ningún registro en SolicitudVale' });
+      }
+  } catch (error) {
+      console.error('Error fetching last SolicitudVale:', error);
+      res.status(500).json({ error: 'Error fetching last SolicitudVale' });
+  }
+};
+
 // Crear un nuevo registro
 const postMethod = async (req, res) => {
   try {
@@ -66,6 +80,19 @@ const putMethod = async (req, res) => {
   }
 };
 
+const updateEstadoVale = async (req, res) => {
+  try {
+    const resultado = await solicitudValeModel.updateEstadoVale(req.params.idVale, req.params.IdEstado);
+    res
+    .status(201)
+    .json({ message: "Estado Vale actualizada exitosamente", resultado });
+  } catch (error) {
+    console.error('Error al actualizar el estado del vale:', error);
+  }
+};
+
+
+
 // Eliminar un registro
 const deleteMethod = async (req, res) => {
   try {
@@ -89,4 +116,5 @@ module.exports = {
   postMethod,
   putMethod,
   deleteMethod,
+  updateEstadoVale,getLastSolicitudValeCont
 };

@@ -6,7 +6,7 @@ const {
   getMethodById,
   postMethod,
   putMethod,
-  deleteMethod,
+  deleteMethod,updateEstadoVale,getLastSolicitudValeCont
 } = require("../controllers/valesControllers");
 const authMiddleware = require("../middleware/authMiddleware"); // Importa el middleware de autenticación
 
@@ -17,12 +17,14 @@ router.get("/", getMethod);
 
 // Devolver datos por ID (Protegido)
 router.get("/:id", getMethodById);
+router.get('/ultimo', getLastSolicitudValeCont);
 
 // Registrar o insertar (Protegido)
 router.post("/", validateSolicitudVale, postMethod);
 
 // Actualizar (Protegido)
 router.put("/:id",validateSolicitudVale, authMiddleware, putMethod);
+router.put("/actualizarEstado/:idVale/:IdEstado", updateEstadoVale);
 
 // Eliminar (Protegido)
 router.delete("/:id", authMiddleware, deleteMethod);

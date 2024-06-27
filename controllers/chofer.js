@@ -1,11 +1,12 @@
-const { 
-  createChofer, 
-  getAllChoferes, 
-  deleteChoferByCedula, 
-  updateChoferByCedula, 
+const {
+  createChofer,
+  getAllChoferes,
+  getChoferesNombreYId,
+  deleteChoferByCedula,
+  updateChoferByCedula,
   getChoferesByCedula,
   getChoferesNom,
-  deleteAllChoferes 
+  deleteAllChoferes
 } = require('../models/chofer');
 
 // CREA Chofer
@@ -54,11 +55,23 @@ const getChoferesNomCont = async (req, res) => {
   }
 };
 
+const getChoferesNombreYIdCont = async (req, res) => {
+  const { idChofer } = req.params;
+  try {
+    const choferes = await getChoferesNombreYId(idChofer);
+    res.json({ message: 'Choferes obtenidos exitosamente', choferes });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener los choferes' });
+  }
+};
+
+
 // ELIMINA CHOFER POR ID
 const deleteChofer = async (req, res) => {
-  const { id } = req.params;
+  const { cedula } = req.params;
   try {
-    const result = await deleteChoferByCedula(id);
+    const result = await deleteChoferByCedula(cedula);
     res.json({ message: 'Chofer eliminado exitosamente', result });
   } catch (error) {
     console.error(error);
@@ -77,12 +90,12 @@ const deleteAllChoferesCont = async (req, res) => {
   }
 };
 
-// ACTUALIZA CHOFER POR ID
+// ACTUALIZA CHOFER POR CEDULA
 const updateChofer = async (req, res) => {
-  const { id } = req.params;
+  const { cedula } = req.params;
   const choferData = req.body;
   try {
-    const result = await updateChoferByCedula(id, choferData);
+    const result = await updateChoferByCedula(cedula, choferData);
     res.json({ message: 'Chofer actualizado exitosamente', result });
   } catch (error) {
     console.error(error);
@@ -90,12 +103,14 @@ const updateChofer = async (req, res) => {
   }
 };
 
-module.exports = { 
-  postChofer, 
-  getAllChoferesCont, 
-  deleteChofer, 
-  updateChofer, 
-  getChoferesByCedulaCont, 
+
+module.exports = {
+  postChofer,
+  getAllChoferesCont,
+  getChoferesNombreYIdCont,
+  deleteChofer,
+  updateChofer,
+  getChoferesByCedulaCont,
   getChoferesNomCont,
-  deleteAllChoferesCont 
+  deleteAllChoferesCont
 };

@@ -1,4 +1,4 @@
-const { createUnidad, getAllUnidades, deleteUnidadById, updateUnidadById, getUnidadesByNumero, deleteAllUnidades } = require('../models/unidad');
+const { createUnidad, getAllUnidades, deleteUnidadById, updateUnidadByNumero, getUnidadesByID, deleteAllUnidades } = require('../models/unidad');
 
 //CREA UNIDADES
 const postUnidad = async (req, res) => {
@@ -28,7 +28,7 @@ const getAllUnidadesCont = async (req, res) => {
 const getUnidadesByNumeroCont = async (req, res) => {
   const { numeroUnidad } = req.params;
   try {
-    const unidades = await getUnidadesByNumero(numeroUnidad);
+    const unidades = await getUnidadesByID (numeroUnidad);
     res.json({ message: 'Unidades obtenidas exitosamente', unidades });
   } catch (error) {
     console.error(error);
@@ -60,18 +60,16 @@ const deleteAllUnidadesCont = async (req, res) => {
   }
 };
 
-
-//ACTUALIZA UNIDADES
 const updateUnidad = async (req, res) => {
-  const { id } = req.params;
-  const unidadData = req.body;
+  const { numeroUnidad } = req.params; 
   try {
-      const resultado = await updateUnidadById(id, unidadData);
-      res.json({ message: 'Unidad actualizada exitosamente', resultado });
+    const resultado = await updateUnidadByNumero(numeroUnidad, req.body); // Llamada a updateUnidadByNumero
+    res.json({ message: 'Unidad actualizada exitosamente', resultado });
   } catch (error) {
-      console.error(error);
-      res.status(400).json({ error: 'Error al actualizar la unidad', details: error.message });
+    console.error(error);
+    res.status(400).json({ error: 'Error al actualizar la unidad', details: error.message });
   }
 };
+
 
 module.exports = { postUnidad, getAllUnidadesCont, deleteUnidad, updateUnidad, getUnidadesByNumeroCont, deleteAllUnidadesCont };

@@ -29,11 +29,11 @@ const deleteTipoUnidad = async (req, res) => {
   const { id } = req.params;
   console.log(id);
   try {
-    const tipoUnidad = await deleteTipoUnidadById(id);
-    res.json({ message: 'Tipo de unidad eliminada exitosamente', tipoUnidad });
+    const result = await deleteTipoUnidadById(id);
+    res.json({ message: 'Tipo de unidad eliminada exitosamente', result });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: 'Error al eliminar el tipo de unidad' });
+    res.status(400).json({ error: 'Error al eliminar el tipo de unidad', details: error.message });
   }
 };
 

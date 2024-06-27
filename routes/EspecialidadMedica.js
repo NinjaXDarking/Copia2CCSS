@@ -14,8 +14,8 @@ router.get('/',   getAllEspecialidades);
 
 router.post('/',  postEspecialidad);
 
-router.delete('/:idCentro',  deleteEspecialidades);
+router.delete('/:idEspecialidad',  deleteEspecialidades);
 
-router.put('/:idCentro',  updateEspecialidad);
+router.put('/:idEspecialidad',  updateEspecialidad);
 
 module.exports=router;

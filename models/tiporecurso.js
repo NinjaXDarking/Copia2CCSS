@@ -5,8 +5,7 @@ const createTipoRecurso = async (recursoData) => {
     try {
       const connection = await MySQLConnection();
       const [rows, fields] = await connection.execute(
-        'INSERT INTO TipoRecurso (idTipoRecurso, recurso) VALUES (?, ?)', [
-          recursoData.idTipoRecurso,
+        'INSERT INTO TipoRecurso (recurso) VALUES (?)', [
           recursoData.recurso,
         ]
       );

@@ -4,7 +4,7 @@ const createCita = async (citaData) => {
   let connection;
   try {
     connection = await MySQLConnection();
-    const [result] = await connection.execute('INSERT INTO Cita (idPaciente, idAcompanante1, idAcompanante2, idUbicacionDestino, idEspecialidad, ubicacionOrigen, prioridad, camilla, condicionCita, diagnostico, fechaCita, horaCita, ausente) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+    const [result] = await connection.execute('INSERT INTO Cita (idPaciente, idAcompanante1, idAcompanante2, idUbicacionDestino, idEspecialidad, ubicacionOrigen, prioridad, camilla, condicionCita, diagnostico, transladoCita, fechaCita, horaCita, ausente) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
       citaData.idPaciente,
       citaData.idAcompanante1 || null,
       citaData.idAcompanante2 || null,
@@ -15,6 +15,7 @@ const createCita = async (citaData) => {
       citaData.camilla,
       citaData.condicionCita,
       citaData.diagnostico,
+      citaData.transladoCita,
       citaData.fechaCita,
       citaData.horaCita,
       citaData.ausente || null
@@ -45,13 +46,14 @@ const obtenerCitas = async () => {
         CONCAT(A2.Nombre, ' ', A2.Apellido1, ' ', A2.Apellido2) AS nombreCompletoAcompanante2,
         Cita.ubicacionOrigen,
         Cita.idUbicacionDestino,
-        destino.Descripcion AS ubicacionDestino, 
-        servicio.Descripcion AS especialidad,
+        Ruta.Descripcion AS ubicacionDestino, 
+        EspecialidadMedica.Especialidad AS especialidad,
         Cita.camilla,
         Cita.prioridad,
         Cita.condicionCita,
         Cita.diagnostico,
         Cita.estadoCita,
+        Cita.transladoCita,
         Cita.fechaCita,
         Cita.horaCita,
         Cita.ausente
@@ -66,9 +68,9 @@ const obtenerCitas = async () => {
       LEFT JOIN 
         Acompanante A2 ON Cita.idAcompanante2 = A2.IdAcompanante
       JOIN 
-        destino ON Cita.idUbicacionDestino = destino.IdDestino
+        Ruta ON Cita.idUbicacionDestino = Ruta.IdRuta
       JOIN 
-        servicio ON Cita.idEspecialidad = servicio.ServicioID;
+        EspecialidadMedica ON Cita.idEspecialidad = EspecialidadMedica.idEspecialidad;
     `);
 
     const citasFormateadas = results.map(cita => {
@@ -132,6 +134,10 @@ const actualizarCita = async (idCita, datosCita) => {
     if (datosCita.estadoCita !== undefined) {
       campos.push('estadoCita = ?');
       valores.push(datosCita.estadoCita);
+    }
+    if (datosCita.transladoCita !== undefined) {
+      campos.push('transladoCita = ?');
+      valores.push(datosCita.transladoCita);
     }
     if (datosCita.fechaCita !== undefined) {
       campos.push('fechaCita = ?');

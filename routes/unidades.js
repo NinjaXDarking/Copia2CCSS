@@ -21,6 +21,6 @@ router.delete('/:id', deleteUnidad);
 //router.delete('/eliminar', deleteAllUnidadesCont);
 
 //ACTUALIZAR
-router.put('/:id', updateUnidad); 
+router.put('/:numeroUnidad', updateUnidad); 
 
 module.exports = router;

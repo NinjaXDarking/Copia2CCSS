@@ -1,4 +1,3 @@
-// models/SolicitudVale.js
 const MySQLConnection = require("../database/mysql");
 
 // Obtener todas las solicitudes de vales
@@ -7,48 +6,41 @@ const getAllVales = async () => {
   try {
     // Abrir conexión
     connection = await MySQLConnection();
-    const sql = `
-  SELECT
-      sv.IdVale,
-      sv.NombreSolicitante,
-      sv.Unidad,
-      sv.DestinoId,
-      d.Descripcion AS Destino,
-      sv.MotivoID,
-      mv.descripcion AS Motivo,
-      sv.ServicioID,
-      s.Descripcion AS Servicio,
-      sv.Fecha_Solicitud,
-      sv.Hora_Salida,
-      sv.Detalle,
-      sv.EstadoValeID,
-      ev.NombreEstado AS EstadoVale,
-      sv.IdUnidadProgramatica,
-      up.NombreUnidad AS UnidadProgramatica,
-      sv.Acompanante1,
-      f1.Nombre AS NombreAcompanante1,
-      sv.Acompanante2,
-      f2.Nombre AS NombreAcompanante2,
-      sv.Acompanante3,
-      f3.Nombre AS NombreAcompanante3,
-      sv.Acompanante4,
-      f4.Nombre AS NombreAcompanante4,
-      sv.Acompanante5,
-      f5.Nombre AS NombreAcompanante5
-  FROM
-      SolicitudVale sv
-      INNER JOIN EstadoVale ev ON sv.EstadoValeID = ev.IdEstado
-      INNER JOIN MotivoVale mv ON sv.MotivoID = mv.id
-      INNER JOIN servicio s ON sv.ServicioID = s.ServicioID
-      INNER JOIN destino d ON d.IdDestino = sv.DestinoId
-      INNER JOIN UnidadProgramatica up ON sv.IdUnidadProgramatica = up.IdUnidadProgramatica
-      LEFT JOIN Funcionario f1 ON sv.Acompanante1 = f1.IdFuncionario
-      LEFT JOIN Funcionario f2 ON sv.Acompanante2 = f2.IdFuncionario
-      LEFT JOIN Funcionario f3 ON sv.Acompanante3 = f3.IdFuncionario
-      LEFT JOIN Funcionario f4 ON sv.Acompanante4 = f4.IdFuncionario
-      LEFT JOIN Funcionario f5 ON sv.Acompanante5 = f5.IdFuncionario;
-`;
 
+    const sql = `
+      SELECT
+        sv.IdVale,
+        sv.NombreSolicitante,
+        sv.SalidaId,
+        r_salida.Descripcion AS NombreSalida,
+        sv.DestinoId,
+        r_destino.Descripcion AS NombreDestino,
+        sv.MotivoId,
+        mv.Descripcion AS NombreMotivo,
+        sv.ServicioId,
+        s.Descripcion AS NombreServicio,
+        sv.Fecha_Solicitud,
+        sv.Hora_Salida,
+        sv.Detalle,
+        sv.EstadoId,
+        ev.NombreEstado AS NombreEstado,
+        sv.IdUnidadProgramatica,
+        up.NombreUnidad AS NombreUnidadProgramatica,
+        sv.Acompanante1,
+        sv.Acompanante2,
+        sv.Acompanante3,
+        sv.Acompanante4,
+        sv.Acompanante5
+      FROM
+        SolicitudVale sv
+        LEFT JOIN Ruta r_destino ON sv.DestinoId = r_destino.IdRuta
+        LEFT JOIN Ruta r_salida ON sv.SalidaId = r_salida.IdRuta
+        LEFT JOIN MotivoVale mv ON sv.MotivoId = mv.Id
+        LEFT JOIN servicio s ON sv.ServicioId = s.ServicioID
+        LEFT JOIN EstadoVale ev ON sv.EstadoId = ev.IdEstado
+        LEFT JOIN UnidadProgramatica up ON sv.IdUnidadProgramatica = up.IdUnidadProgramatica
+    `;
+    
     // Ejecutar consulta
     const [rows] = await connection.query(sql);
 
@@ -69,56 +61,50 @@ const getValeById = async (id) => {
     // Abrir conexión
     connection = await MySQLConnection();
 
+    // Consulta SQL para obtener el vale por ID
+    const sql = `
+     SELECT
+        sv.IdVale,
+        sv.NombreSolicitante,
+        sv.SalidaId,
+        r_salida.Descripcion AS NombreSalida,
+        sv.DestinoId,
+        r_destino.Descripcion AS NombreDestino,
+        sv.MotivoId,
+        mv.Descripcion AS NombreMotivo,
+        sv.ServicioId,
+        s.Descripcion AS NombreServicio,
+        sv.Fecha_Solicitud,
+        sv.Hora_Salida,
+        sv.Detalle,
+        sv.EstadoId,
+        ev.NombreEstado AS NombreEstado,
+        sv.IdUnidadProgramatica,
+        up.NombreUnidad AS NombreUnidadProgramatica,
+        sv.Acompanante1,
+        sv.Acompanante2,
+        sv.Acompanante3,
+        sv.Acompanante4,
+        sv.Acompanante5
+      FROM
+        SolicitudVale sv
+        LEFT JOIN Ruta r_destino ON sv.DestinoId = r_destino.IdRuta
+        LEFT JOIN Ruta r_salida ON sv.SalidaId = r_salida.IdRuta
+        LEFT JOIN MotivoVale mv ON sv.MotivoId = mv.Id
+        LEFT JOIN servicio s ON sv.ServicioId = s.ServicioID
+        LEFT JOIN EstadoVale ev ON sv.EstadoId = ev.IdEstado
+        LEFT JOIN UnidadProgramatica up ON sv.IdUnidadProgramatica = up.IdUnidadProgramatica
+      WHERE
+        sv.IdVale = ?
+    `;
+    
     // Ejecutar consulta
-    const [rows] = await connection.query(
-      `
-            SELECT
-                sv.IdVale,
-                sv.NombreSolicitante,
-                sv.Unidad,
-                sv.DestinoId,
-                d.Descripcion AS Destino,
-                sv.MotivoID,
-                mv.descripcion AS Motivo,
-                sv.ServicioID,
-                s.Descripcion AS Servicio,
-                sv.Fecha_Solicitud,
-                sv.Hora_Salida,
-                sv.Detalle,
-                sv.EstadoValeID,
-                ev.NombreEstado AS EstadoVale,
-                sv.IdUnidadProgramatica,
-                up.NombreUnidad AS UnidadProgramatica,
-                sv.Acompanante1,
-                f1.Nombre AS NombreAcompanante1,
-                sv.Acompanante2,
-                f2.Nombre AS NombreAcompanante2,
-                sv.Acompanante3,
-                f3.Nombre AS NombreAcompanante3,
-                sv.Acompanante4,
-                f4.Nombre AS NombreAcompanante4,
-                sv.Acompanante5,
-                f5.Nombre AS NombreAcompanante5
-            FROM
-                SolicitudVale sv
-                INNER JOIN EstadoVale ev ON sv.EstadoValeID = ev.IdEstado
-                INNER JOIN MotivoVale mv ON sv.MotivoID = mv.id
-                INNER JOIN servicio s ON sv.ServicioID = s.ServicioID
-                INNER JOIN destino d ON d.IdDestino = sv.DestinoId
-                INNER JOIN UnidadProgramatica up ON sv.IdUnidadProgramatica = up.IdUnidadProgramatica
-                LEFT JOIN Funcionario f1 ON sv.Acompanante1 = f1.IdFuncionario
-                LEFT JOIN Funcionario f2 ON sv.Acompanante2 = f2.IdFuncionario
-                LEFT JOIN Funcionario f3 ON sv.Acompanante3 = f3.IdFuncionario
-                LEFT JOIN Funcionario f4 ON sv.Acompanante4 = f4.IdFuncionario
-                LEFT JOIN Funcionario f5 ON sv.Acompanante5 = f5.IdFuncionario
-            WHERE
-                sv.IdVale = ?
-        `,
-      [id]
-    );
+    const [rows] = await connection.query(sql, [id]);
 
     // Verificar si se encontró el vale
-    if (rows.length === 0) throw new Error("Solicitud de vale no encontrada");
+    if (rows.length === 0) {
+      throw new Error(`Solicitud de vale con ID ${id} no encontrada`);
+    }
 
     // Retornar resultado
     return rows[0];
@@ -134,10 +120,10 @@ const getValeById = async (id) => {
 const createVale = async (vale) => {
   const {
     NombreSolicitante,
-    Unidad,
     DestinoId,
-    MotivoID,
-    ServicioID,
+    SalidaId,
+    MotivoId,
+    ServicioId,
     Fecha_Solicitud,
     Hora_Salida,
     Detalle,
@@ -147,7 +133,7 @@ const createVale = async (vale) => {
     Acompanante3,
     Acompanante4,
     Acompanante5,
-    EstadoValeID,
+    EstadoId,
   } = vale;
 
   let connection;
@@ -161,10 +147,10 @@ const createVale = async (vale) => {
     // Obtener el último ID de vale insertado para el año actual
     const [lastVale] = await connection.query(
       `SELECT IdVale 
-             FROM SolicitudVale 
-             WHERE IdVale LIKE ? 
-             ORDER BY IdVale DESC 
-             LIMIT 1`,
+       FROM SolicitudVale 
+       WHERE IdVale LIKE ? 
+       ORDER BY IdVale DESC 
+       LIMIT 1`,
       [`${year}-%`]
     );
 
@@ -181,15 +167,15 @@ const createVale = async (vale) => {
     // Ejecutar consulta para insertar el nuevo vale
     const [result] = await connection.query(
       `INSERT INTO SolicitudVale 
-             (IdVale, NombreSolicitante, Unidad, DestinoId, MotivoID, ServicioID, Fecha_Solicitud, Hora_Salida, Detalle, IdUnidadProgramatica, Acompanante1, Acompanante2, Acompanante3, Acompanante4, Acompanante5, EstadoValeID) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       (IdVale, NombreSolicitante, DestinoId, SalidaId, MotivoId, ServicioId, Fecha_Solicitud, Hora_Salida, Detalle, IdUnidadProgramatica, Acompanante1, Acompanante2, Acompanante3, Acompanante4, Acompanante5, EstadoId) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         newIdVale,
         NombreSolicitante,
-        Unidad,
         DestinoId,
-        MotivoID,
-        ServicioID,
+        SalidaId,
+        MotivoId,
+        ServicioId,
         Fecha_Solicitud,
         Hora_Salida,
         Detalle,
@@ -199,7 +185,7 @@ const createVale = async (vale) => {
         Acompanante3,
         Acompanante4,
         Acompanante5,
-        EstadoValeID,
+        EstadoId,
       ]
     );
 
@@ -216,17 +202,18 @@ const createVale = async (vale) => {
   }
 };
 
+// Actualizar una solicitud de vale
 const updateVale = async (id, vale) => {
   const {
     NombreSolicitante,
-    Unidad,
     DestinoId,
-    MotivoID,
-    ServicioID,
+    SalidaId,
+    MotivoId,
+    ServicioId,
     Fecha_Solicitud,
     Hora_Salida,
     Detalle,
-    EstadoValeID, // Cambio de Estado a EstadoValeID
+    EstadoId,
     IdUnidadProgramatica,
     Acompanante1,
     Acompanante2,
@@ -240,21 +227,36 @@ const updateVale = async (id, vale) => {
     // Abrir conexión
     connection = await MySQLConnection();
 
-    // Ejecutar consulta
+    // Ejecutar consulta para actualizar el vale
     const [result] = await connection.query(
-      `UPDATE SolicitudVale 
-             SET NombreSolicitante = ?, Unidad = ?, DestinoId = ?, MotivoID = ?, ServicioID = ?, Fecha_Solicitud = ?, Hora_Salida = ?, Detalle = ?, EstadoValeID = ?, IdUnidadProgramatica = ?, Acompanante1 = ?, Acompanante2 = ?, Acompanante3 = ?, Acompanante4 = ?, Acompanante5 = ? 
-             WHERE IdVale = ?`,
+      `UPDATE SolicitudVale
+       SET
+          NombreSolicitante = ?,
+          DestinoId = ?,
+          SalidaId = ?,
+          MotivoId = ?,
+          ServicioId = ?,
+          Fecha_Solicitud = ?,
+          Hora_Salida = ?,
+          Detalle = ?,
+          EstadoId = ?,
+          IdUnidadProgramatica = ?,
+          Acompanante1 = ?,
+          Acompanante2 = ?,
+          Acompanante3 = ?,
+          Acompanante4 = ?,
+          Acompanante5 = ?
+       WHERE IdVale = ?`,
       [
         NombreSolicitante,
-        Unidad,
         DestinoId,
-        MotivoID,
-        ServicioID,
+        SalidaId,
+        MotivoId,
+        ServicioId,
         Fecha_Solicitud,
         Hora_Salida,
         Detalle,
-        EstadoValeID,
+        EstadoId,
         IdUnidadProgramatica,
         Acompanante1,
         Acompanante2,
@@ -266,68 +268,79 @@ const updateVale = async (id, vale) => {
     );
 
     // Verificar si se actualizó el vale
-    if (result.affectedRows === 0) {
-      return {
-        success: false,
-        message: "Solicitud de vale no encontrada o no actualizada",
-      };
-    }
+    if (result.affectedRows === 0)
+      throw new Error(`Solicitud de vale con ID ${id} no encontrada`);
 
-    // Retornar mensaje de éxito si la actualización fue exitosa
+    // Retornar mensaje de éxito
     return {
-      success: true,
       message: `Solicitud de vale con ID ${id} actualizada exitosamente`,
+      vale: {
+        IdVale: id,
+        ...vale,
+      },
     };
   } catch (error) {
-    console.error(
-      `Error al actualizar la solicitud de vale con ID ${id}:`,
-      error
-    );
+    console.error(`Error al actualizar la solicitud de vale con ID ${id}:`, error);
     throw error;
   } finally {
     if (connection) await connection.end(); // Cerrar conexión
   }
 };
 
-// Eliminar una solicitud de vale por su ID
-const deleteVale = async (id) => {
+// Función para obtener el último registro
+const getLastSolicitudVale = async () => {
+  let connection;
+  try {
+    connection = await MySQLConnection();
+
+    const [result] = await connection.query(
+      `SELECT * 
+       FROM SolicitudVale 
+       ORDER BY IdVale DESC 
+       LIMIT 1`
+    );
+
+    return result[0] || null; // Devolver el primer resultado o null si no hay registros
+  } catch (error) {
+    console.error('Error fetching last SolicitudVale:', error);
+    throw error;
+  } finally {
+    if (connection) await connection.end();
+  }
+};
+
+// Actualizar estado de una solicitud de vale por su ID
+const updateEstadoVale = async (idVale, idEstado) => {
   let connection;
   try {
     // Abrir conexión
     connection = await MySQLConnection();
 
-    // Ejecutar consulta
+    // Ejecutar consulta para actualizar el estado del vale
     const [result] = await connection.query(
-      "DELETE FROM SolicitudVale WHERE IdVale = ?",
-      [id]
+      `UPDATE SolicitudVale
+       SET EstadoId = ?
+       WHERE IdVale = ?`,
+      [idEstado, idVale]
     );
 
-    // Verificar si se eliminó el vale
+    // Verificar si se actualizó el vale
     if (result.affectedRows === 0) {
-      return {
-        success: false,
-        message: "Solicitud de vale no encontrada o no eliminada",
-      };
+      throw new Error(`Solicitud de vale con ID ${idVale} no encontrada`);
     }
 
-    // Retornar mensaje de éxito si la eliminación fue exitosa
+    // Retornar mensaje de éxito
     return {
-      success: true,
-      message: `Solicitud de vale con ID ${id} eliminada exitosamente`,
+      message: `Estado del vale con ID ${idVale} actualizado exitosamente`,
+      idVale: idVale,
+      idEstado: idEstado,
     };
   } catch (error) {
-    console.error(
-      `Error al eliminar la solicitud de vale con ID ${id}:`,
-      error
-    );
+    console.error(`Error al actualizar el estado del vale con ID ${idVale}:`, error);
     throw error;
   } finally {
     if (connection) await connection.end(); // Cerrar conexión
   }
-};
-
-module.exports = {
-  deleteVale,
 };
 
 module.exports = {
@@ -335,5 +348,6 @@ module.exports = {
   getValeById,
   createVale,
   updateVale,
-  deleteVale,
+  getLastSolicitudVale,
+  updateEstadoVale, 
 };

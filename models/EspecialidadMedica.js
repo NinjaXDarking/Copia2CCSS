@@ -1,61 +1,78 @@
 const MySQLConnection = require('../database/mysql');
 
 const createEspecialidad = async (especialidadData) => {
-  try {
-      const connection = await MySQLConnection();
-      const [rows, fields] = await connection.execute('INSERT INTO EspecialidadMedica (especialidad) VALUES (?)', [
-          especialidadData.especialidad
+    let connection;
+    try {
+      connection = await MySQLConnection();
+      const [result] = await connection.execute('INSERT INTO EspecialidadMedica (Especialidad) VALUES (?)', [
+        especialidadData.Especialidad
       ]);
-      console.log('La especialidad se registro exitosamente');
-      return rows;
-  } catch (error) {
-      console.error('Error al registrar la especialidad:', error);
-      throw new Error('Error al registrar la especialidad');
-  }
-};
+  
+      if (result.affectedRows === 1) {
+        return { success: true, message: 'Especialidad Medica creada con éxito.', idEspecialidad: result.insertId };
+      } else {
+        return { success: false, message: 'No se pudo crear la especialidad medica.' };
+      }
+    } catch (error) {
+      console.error('Error al crear especialidad medica:', error);
+      throw error;
+    } finally {
+      if (connection) await connection.end();
+    }
+  };
 
 const getAllEspecialidad = async () => {
+  let connection;
   try {
-      const connection = await MySQLConnection();
+      connection = await MySQLConnection();
       const [Especialidad] = await connection.execute('SELECT * FROM EspecialidadMedica');
       return Especialidad;
   } catch (error) {
-      console.error('Error al obtener los datos de la tabla:', error);
-      throw new Error('Error al obtener los datos de la tabla');
+    console.error('Error al obtener especialidad:', error);
+    throw error;
+  } finally {
+    if (connection) await connection.end();
   }
 };
 
-const eliminateEspecialidad = async (idEspecialidad) => {
-    try {
-        const connection = await MySQLConnection();
-        console.log(`id models delete: ${idEspecialidad}`);
-        const [rows, fields] = await connection.execute('DELETE FROM EspecialidadMedica WHERE idEspecialidad = ?', [idEspecialidad]);
-        console.log('La especialidad se elimino exitosamente');
+const eliminarEspecialidad = async (idEspecialidad) => { 
+  let connection;  
+  try {
+      connection = await MySQLConnection();
+      console.log(`idEspecialidad models delete: ${idEspecialidad}`);
+      const [rows, fields] = await connection.execute('DELETE FROM EspecialidadMedica WHERE idEspecialidad = ?',[idEspecialidad]);
+      console.log('La especialidad se elimino exitosamente');
       return rows;
     } catch (error) {
         console.error('Error al eliminar la especialidad:', error);
         throw new Error('Error al eliminar la especialidad');
-    }
-};
-
-const updatingEspecialidad = async (idEspecialidad, especialidadData) => {
+      } finally {
+        if (connection) await connection.end();
+      }
+  };
+  
+  const updatingEspecialidad = async (idEspecialidad, especialidadData) => { 
+    let connection;
     try {
-        const connection = await MySQLConnection();
-        console.log(`id models update: ${idEspecialidad}`);
-        console.log(`nuevos datos models:`, especialidadData);
-
-        if (especialidadData.especialidad === undefined) {
-            throw new Error('hay parámetros undefined en models');
-        }
-
-        const [rows, fields] = await connection.execute('UPDATE EspecialidadMedica SET especialidad = ? WHERE idEspecialidad = ?', 
-        [especialidadData.especialidad, idEspecialidad]);
-        console.log('La especialidad se actualizo exitosamente');
-        return rows;
+      connection = await MySQLConnection();
+      console.log(`idEspecialidad models update: ${idEspecialidad}`);
+      console.log(`nuevos datos models:`, especialidadData);
+  
+      if (especialidadData.Especialidad === undefined) {
+        throw new Error('hay parámetros undefined en models');
+      }
+  
+      const [rows, fields] = await connection.execute(
+        'UPDATE EspecialidadMedica SET Especialidad = ? WHERE idEspecialidad = ?', [especialidadData.Especialidad, idEspecialidad]
+      );
+      console.log('La especialidad se actualizo exitosamente');
+      return rows;
     } catch (error) {
-        console.error('Error al actualizar la especialidad:', error);
-        throw new Error('Error al actualizar la especialidad');
-    }
-};
+        console.error('Error al actualizar especialidad:', error);
+        throw error;
+      } finally {
+        if (connection) await connection.end();
+      }
+  };
 
-module.exports = { createEspecialidad, getAllEspecialidad, eliminateEspecialidad, updatingEspecialidad};
+module.exports = { createEspecialidad, getAllEspecialidad, eliminarEspecialidad, updatingEspecialidad};

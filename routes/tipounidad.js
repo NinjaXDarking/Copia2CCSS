@@ -1,21 +1,23 @@
 const { Router } = require('express');
 const {
     postTipoUnidad,
-    getAllTipoUnidadCont, deleteTipoUnidad, updateTipoUnidad
+    getAllTipoUnidadCont,
+    deleteTipoUnidad,
+    updateTipoUnidad
 } = require('../controllers/tipounidad');
 
 const router = Router();
 
-//CREAR
+// CREAR
 router.post('/', postTipoUnidad);
 
-//OBTENER
+// OBTENER
 router.get('/', getAllTipoUnidadCont);
 
-//ELIMINAR
-router.delete('/eliminar/:id', deleteTipoUnidad);
+// ELIMINAR
+router.delete('/:id', deleteTipoUnidad);
 
-//ACTUALIZAR
-router.put('/actualizar/:id', updateTipoUnidad); 
+// ACTUALIZAR
+router.put('/:id', updateTipoUnidad); 
 
 module.exports = router;

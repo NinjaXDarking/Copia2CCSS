@@ -4,7 +4,8 @@ const {
   postChofer,
   deleteChofer,
   updateChofer,
-  getChoferesByCedulaCont, 
+  getChoferesByCedulaCont,
+  getChoferesNombreYIdCont,
   getChoferesNomCont,
   deleteAllChoferesCont
 } = require('../controllers/chofer');
@@ -17,13 +18,15 @@ router.post('/', postChofer);
 // OBTENER
 router.get('/', getAllChoferesCont);
 router.get('/nombre', getChoferesNomCont);
-router.get('/:cedula', getChoferesByCedulaCont);
+router.get('/idChofer/:idChofer', getChoferesNombreYIdCont);
+router.get('/cedula/:cedula', getChoferesByCedulaCont);
+
 
 // ELIMINAR
-router.delete('/:id', deleteChofer);
+router.delete('/:cedula', deleteChofer);
 router.delete('/', deleteAllChoferesCont);
 
 // ACTUALIZAR
-router.put('/:id', updateChofer);
+router.put('/:cedula', updateChofer);
 
 module.exports = router;

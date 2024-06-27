@@ -4,10 +4,10 @@ const createFrecuenciaCambio = async (frecuenciaCambioData) => {
     try {
       const connection = await MySQLConnection();
       const [rows, fields] = await connection.execute(
-        'INSERT INTO FrecuenciaCambio (idFrecuenciaCambio, tipo, valor) VALUES (?, ?, ?)', [
-          frecuenciaCambioData.idFrecuenciaCambio,
+        'INSERT INTO FrecuenciaCambio (tipo, ultimoMantenimiento) VALUES (?, ?, ?)', [
           frecuenciaCambioData.tipo,
-          frecuenciaCambioData.valor,
+          frecuenciaCambioData.frecuencia,
+          frecuenciaCambioData.ultimoMantenimiento,
         ]
       );
       console.log('La frecuencia de cambio se creó correctamente');
@@ -25,7 +25,7 @@ const createFrecuenciaCambio = async (frecuenciaCambioData) => {
   const getAllFrecuenciaCambios = async () => {
     try {
       const connection = await MySQLConnection();
-      const [rows, fields] = await connection.execute('SELECT idFrecuenciaCambio, tipo, valor FROM FrecuenciaCambio');
+      const [rows, fields] = await connection.execute('SELECT idFrecuenciaCambio, tipo, ultimoMantenimiento FROM FrecuenciaCambio');
       return rows;
     } catch (error) {
       console.error('Error al obtener las frecuencias de cambio:', error);
@@ -37,7 +37,7 @@ const createFrecuenciaCambio = async (frecuenciaCambioData) => {
     try {
       const connection = await MySQLConnection();
       const [rows, fields] = await connection.execute(
-        'SELECT idFrecuenciaCambio, tipo, valor FROM FrecuenciaCambio WHERE idFrecuenciaCambio = ?', 
+        'SELECT idFrecuenciaCambio, tipo, ultimoMantenimiento FROM FrecuenciaCambio WHERE idFrecuenciaCambio = ?', 
         [idFrecuenciaCambio]
       );
       return rows[0];
@@ -65,7 +65,7 @@ const createFrecuenciaCambio = async (frecuenciaCambioData) => {
     try {
       const connection = await MySQLConnection();
       const [result] = await connection.execute(
-        'UPDATE FrecuenciaCambio SET tipo = ?, valor = ? WHERE idFrecuenciaCambio = ?', 
+        'UPDATE FrecuenciaCambio SET tipo = ?, ultimoMantenimiento = ? WHERE idFrecuenciaCambio = ?', 
         [frecuenciaCambioData.tipo, frecuenciaCambioData.valor, idFrecuenciaCambio]
       );
       return result;

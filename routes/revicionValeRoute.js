@@ -7,6 +7,6 @@ const { validateRevicionVale } = require('../validators/revicionValeValidator');
 // Ruta para crear una nueva revisión de vale
 
 router.get('/', getAllRevicionValesCont);
-router.post('/',authMiddleware,validateRevicionVale, postRevicionVale);
+router.post('/',validateRevicionVale, postRevicionVale);
 
 module.exports = router;
