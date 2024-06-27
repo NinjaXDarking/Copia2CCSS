@@ -1,5 +1,5 @@
 const viaje = require('../models/viaje');
-const { createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitas } = require('../models/viaje');
+const { createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitasM } = require('../models/viaje');
 
 const postViaje = async (req, res) => {
     const viajeData = req.body;
@@ -31,7 +31,7 @@ const postViaje = async (req, res) => {
 
 const getAllRelacionViajesCitas = async (req, res) => {
   try {
-    const ViajesCitas = await getAllRelacionViajesCitas();
+    const ViajesCitas = await getAllRelacionViajesCitasM();
 
   if (ViajesCitas.success) {
       res.status(200).json({ message: ViajesCitas.message, ViajesCitas: ViajesCitas });

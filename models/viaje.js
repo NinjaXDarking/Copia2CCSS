@@ -56,7 +56,7 @@ const putViajeCitas = async (idUnidad,idUsuario,idCita) => {
 
 
 
-const getAllRelacionViajesCitas = async () => {
+const getAllRelacionViajesCitasM = async () => {
     let connection
   try {
       connection = await MySQLConnection();
@@ -214,4 +214,4 @@ const updatingViaje = async (idViaje, viajeData) => {
     }
 };
 
-module.exports = { createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitas};
+module.exports = { createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitasM};
