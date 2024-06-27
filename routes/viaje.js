@@ -9,6 +9,7 @@ const {
     postViaje,
     deleteViaje,
     updateViaje,
+    UpdateViajeCita,
     getAllviajessById
 }=require('../controllers/viaje');
 
@@ -23,6 +24,8 @@ router.post('/',  postViaje);
 router.get('/:idViaje',   getAllviajessById);
 
 router.delete('/:idViaje',  deleteViaje);
+
+router.put('/', UpdateViajeCita);
 
 router.put('/:idViaje',  updateViaje);
 

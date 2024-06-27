@@ -7,7 +7,7 @@ const createViaje = async (viajeData) => {
     //   console.log(viajeData);
     //   console.log("viajeData");
     //   console.log("viajeData");
-      const [rows] = await connection.execute('CALL SP_InserViaje(?,?,?,?,?)', [
+      const [rows] = await connection.execute('CALL SP_InsertViaje(?,?,?,?,?)', [
         viajeData.idUnidad,
         viajeData.IdChofer,
         viajeData.EstadoViaje,
@@ -96,7 +96,7 @@ const getAllviajes = async () => {
       console.error('Error al obtener los datos de la tabla:', error);
       throw new Error('Error al obtener los datos de la tabla');
     } finally {
-        if (connection) await connection.end();
+        connection.close()
     }
 };
 
@@ -120,7 +120,7 @@ const getAllviajesById = async (idViaje) => {
         console.error('Error al obtener el viaje:', error);
         throw new Error('Error al obtener el viaje');
     } finally {
-        if (connection) await connection.end();
+        connection.close()
     }
 }
 
@@ -130,7 +130,7 @@ const eliminateViaje = async (idViaje) => {
     try {
         connection = await MySQLConnection();
         console.log(`id models delete: ${idViaje}`);
-        const [rows, fields] = await connection.execute('DELETE FROM Viaje WHERE idViaje = ?', [idViaje]);
+        const [rows, fields] = await connection.execute('CALL SP_DeleteViajeCita(?);', [idViaje]);
 
         if (rows.affectedRows === 0) {
             console.log('No se enconto ningun viaje');
@@ -144,7 +144,7 @@ const eliminateViaje = async (idViaje) => {
         console.error('Error al eliminar el viaje:', error);
         throw new Error('Error al eliminar el viaje');
     } finally {
-        if (connection) await connection.end();
+        connection.close()
     }
 }
 
@@ -214,4 +214,27 @@ const updatingViaje = async (idViaje, viajeData) => {
     }
 };
 
-module.exports = { createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitasM};
+const UpdateViajeCitaM = async (idViaje, idCita) => {
+    let connection;
+    try {
+        // Definir los campos válidos que existen en la tabla
+        connection = await MySQLConnection();
+        const [ViajeCita] = await connection.execute(`CALL SP_UpdateViajeCita(?,?);`,
+          [idViaje,idCita]);
+  
+      if (ViajeCita.length === 0) {
+          console.log('No se enconto ningun ViajeCita');
+          return { success: false, message: 'No se enconto ningun ViajeCita' };
+      } else {
+          console.log('El ViajeCita se encontro exitosamente');
+          return { success: true, ViajeCita: ViajeCita };
+      } 
+    } catch (error) {
+        console.error('Error al actualizar el ViajeCita:', error);
+        throw new Error('Error al actualizar el ViajeCita');
+    } finally {
+        connection.close()
+    }
+};
+
+module.exports = { UpdateViajeCitaM, createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitasM};

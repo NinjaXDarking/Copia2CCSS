@@ -1,5 +1,5 @@
 const viaje = require('../models/viaje');
-const { createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitasM } = require('../models/viaje');
+const { UpdateViajeCitaM, createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitasM } = require('../models/viaje');
 
 const postViaje = async (req, res) => {
     const viajeData = req.body;
@@ -119,4 +119,28 @@ const updateViaje = async (req, res) => {
 
 }
 
-module.exports = { postViaje, getAllviajess, deleteViaje, updateViaje, getAllviajessById,getAllRelacionViajesCitas };
+const UpdateViajeCita = async (req, res) => {
+  const viajeCitaData = req.body;
+  try {
+    
+    if (viajeCitaData.idCita < 1){
+      res.status(404).json({ message: "No seleccionaste ninguna cita" });
+    }
+      // if (!viajeData.FechaInicio) {
+      //   viajeData.FechaInicio = new Date();
+      // }
+    const newViajeCita = await UpdateViajeCitaM(viajeCitaData.idViaje,viajeCitaData.idCita);
+
+    if (newViajeCita.success) {
+        res.status(200).json({ message: newViajeCita.message, newViajeCita: newViajeCita });
+    } else {
+        res.status(404).json({ message: newViajeCita.message });
+    } 
+
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ error: 'Error al registrar el viaje' });
+  }
+};
+
+module.exports = { UpdateViajeCita, postViaje, getAllviajess, deleteViaje, updateViaje, getAllviajessById,getAllRelacionViajesCitas };
