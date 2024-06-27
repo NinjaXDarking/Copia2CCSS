@@ -25,7 +25,7 @@ router.post('/',  postViaje);
 router.get('/:idViaje',   getAllviajessById);
 
 router.delete('/:idViaje',  deleteViaje);
-router.delete('/Cita/:idCita',  DeleteViajeCita);
+router.delete('/cita/:idCita',  DeleteViajeCita);
 
 router.put('/', UpdateViajeCita);
 

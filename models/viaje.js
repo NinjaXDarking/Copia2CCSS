@@ -153,7 +153,7 @@ const DeleteViajeCitaM = async (idCita) => {
 
     try {
         connection = await MySQLConnection();
-        const [rows, fields] = await connection.execute('CALL SP_DeleteViajeCita(?);', [idCita]);
+        const [rows] = await connection.execute('CALL SP_DeleteViajeCita(?);', [idCita]);
 
         if (rows.affectedRows === 0) {
             console.log('No se enconto ningun ViajeCita');
