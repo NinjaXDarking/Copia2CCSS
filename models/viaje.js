@@ -54,6 +54,30 @@ const putViajeCitas = async (idUnidad,idUsuario,idCita) => {
     }
 };
 
+
+
+const getAllRelacionViajesCitas = async () => {
+    let connection
+  try {
+      connection = await MySQLConnection();
+      const [ViajesCitas] = await connection.execute('SELECT * FROM ViajeCita');
+
+    if (ViajesCitas.length === 0) {
+        console.log('No se enconto ningun ViajesCitas');
+        return { success: false, message: 'No se enconto ningun ViajesCitas' };
+    } else {
+        console.log('El ViajesCitas se encontro exitosamente');
+        return { success: true, ViajesCitas: ViajesCitas };
+    }  
+
+    } catch (error) {
+      console.error('Error al obtener los datos de la tabla:', error);
+      throw new Error('Error al obtener los datos de la tabla');
+    } finally {
+        connection.close()
+    }
+};
+
 const getAllviajes = async () => {
     let connection
   try {
@@ -190,4 +214,4 @@ const updatingViaje = async (idViaje, viajeData) => {
     }
 };
 
-module.exports = { createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas};
+module.exports = { createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitas};

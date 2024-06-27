@@ -5,11 +5,16 @@ const router=Router();
 
 const {
     getAllviajess,
+    getAllRelacionViajesCitas,
     postViaje,
     deleteViaje,
     updateViaje,
     getAllviajessById
 }=require('../controllers/viaje');
+
+
+router.get('/relaciones/',   getAllRelacionViajesCitas);
+
 
 router.get('/',   getAllviajess);
 

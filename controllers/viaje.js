@@ -1,5 +1,5 @@
 const viaje = require('../models/viaje');
-const { createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas } = require('../models/viaje');
+const { createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitas } = require('../models/viaje');
 
 const postViaje = async (req, res) => {
     const viajeData = req.body;
@@ -27,6 +27,24 @@ const postViaje = async (req, res) => {
         res.status(400).json({ error: 'Error al registrar el viaje' });
     }
 };
+
+
+const getAllRelacionViajesCitas = async (req, res) => {
+  try {
+    const ViajesCitas = await getAllRelacionViajesCitas();
+
+  if (ViajesCitas.success) {
+      res.status(200).json({ message: ViajesCitas.message, ViajesCitas: ViajesCitas });
+  } else {
+      res.status(404).json({ message: ViajesCitas.message });
+  }    
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener los viajes' });
+  }
+};
+
 
 const getAllviajess = async (req, res) => {
   try {
@@ -101,4 +119,4 @@ const updateViaje = async (req, res) => {
 
 }
 
-module.exports = { postViaje, getAllviajess, deleteViaje, updateViaje, getAllviajessById };
+module.exports = { postViaje, getAllviajess, deleteViaje, updateViaje, getAllviajessById,getAllRelacionViajesCitas };
