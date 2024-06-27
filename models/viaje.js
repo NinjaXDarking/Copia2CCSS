@@ -7,17 +7,10 @@ const createViaje = async (viajeData) => {
     //   console.log(viajeData);
     //   console.log("viajeData");
     //   console.log("viajeData");
-      const [rows] = await connection.execute('INSERT INTO Viaje (idUnidad, idChofer, EstadoViaje, fechaInicioViaje, horaInicioViaje, horaFinViaje, kilometrajeInicial, kilometrajeFinal, horasExtras, viaticos, fechaCreacion, idUsuario) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', [
+      const [rows] = await connection.execute('CALL SP_InserViaje(?,?,?,?,?)', [
         viajeData.idUnidad,
         viajeData.IdChofer,
         viajeData.EstadoViaje,
-        viajeData.fechaInicioViaje,
-        viajeData.horaInicioViaje,
-        viajeData.horaFinViaje,
-        viajeData.kilometrajeInicial,
-        viajeData.kilometrajeFinal,
-        viajeData.horasExtras,
-        viajeData.viaticos,
         viajeData.fechaCreacion,
         viajeData.idUsuario
       ]);
