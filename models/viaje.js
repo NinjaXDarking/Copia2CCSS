@@ -124,29 +124,29 @@ const getAllviajesById = async (idViaje) => {
     }
 }
 
-const eliminateViaje = async (idViaje) => {
-    let connection
+// const eliminateViaje = async (idViaje) => {
+//     let connection
 
-    try {
-        connection = await MySQLConnection();
-        console.log(`id models delete: ${idViaje}`);
-        const [rows, fields] = await connection.execute('CALL SP_DeleteViajeCita(?);', [idViaje]);
+//     try {
+//         connection = await MySQLConnection();
+//         console.log(`id models delete: ${idViaje}`);
+//         const [rows, fields] = await connection.execute('CALL SP_DeleteViajeCita(?);', [idViaje]);
 
-        if (rows.affectedRows === 0) {
-            console.log('No se enconto ningun viaje');
-            return { success: false, message: 'No se enconto ningun viaje' };
-        } else {
-            console.log('El viaje se elimino exitosamente');
-            return { success: true, message: 'El viaje se elimino exitosamente' };
-        }
+//         if (rows.affectedRows === 0) {
+//             console.log('No se enconto ningun viaje');
+//             return { success: false, message: 'No se enconto ningun viaje' };
+//         } else {
+//             console.log('El viaje se elimino exitosamente');
+//             return { success: true, message: 'El viaje se elimino exitosamente' };
+//         }
         
-    } catch (error) {
-        console.error('Error al eliminar el viaje:', error);
-        throw new Error('Error al eliminar el viaje');
-    } finally {
-        connection.close()
-    }
-}
+//     } catch (error) {
+//         console.error('Error al eliminar el viaje:', error);
+//         throw new Error('Error al eliminar el viaje');
+//     } finally {
+//         connection.close()
+//     }
+// }
 
 const DeleteViajeCitaM = async (idCita) => {
     let connection
@@ -260,4 +260,4 @@ const UpdateViajeCitaM = async (idViaje, idCita) => {
     }
 };
 
-module.exports = { DeleteViajeCitaM, UpdateViajeCitaM, createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitasM};
+module.exports = { DeleteViajeCitaM, UpdateViajeCitaM, createViaje, getAllviajes, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitasM};

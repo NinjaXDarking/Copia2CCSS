@@ -7,7 +7,7 @@ const {
     getAllviajess,
     getAllRelacionViajesCitas,
     postViaje,
-    deleteViaje,
+    //deleteViaje,
     updateViaje,
     UpdateViajeCita,
     DeleteViajeCita,
@@ -24,7 +24,8 @@ router.post('/',  postViaje);
 
 router.get('/:idViaje',   getAllviajessById);
 
-router.delete('/:idViaje',  deleteViaje);
+//router.delete('/:idViaje',  deleteViaje);
+
 router.delete('/cita/:idCita',  DeleteViajeCita);
 
 router.put('/', UpdateViajeCita);

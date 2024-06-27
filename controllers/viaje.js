@@ -1,5 +1,5 @@
 const viaje = require('../models/viaje');
-const { DeleteViajeCitaM, UpdateViajeCitaM, createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitasM } = require('../models/viaje');
+const { DeleteViajeCitaM, UpdateViajeCitaM, createViaje, getAllviajes, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitasM } = require('../models/viaje');
 
 const postViaje = async (req, res) => {
     const viajeData = req.body;
@@ -80,23 +80,23 @@ const getAllviajessById = async (req, res) => {
   }
 };
 
-const deleteViaje = async (req, res) => {
-  const idViaje = req.params.idViaje;
-  console.log(`id controllers delete: ${idViaje}`);
-  try {
-    const delViaje = await eliminateViaje(idViaje);
+// const deleteViaje = async (req, res) => {
+//   const idViaje = req.params.idViaje;
+//   console.log(`id controllers delete: ${idViaje}`);
+//   try {
+//     const delViaje = await eliminateViaje(idViaje);
 
-  if (delViaje.success) {
-      res.status(200).json({ message: delViaje.message, viaje: delViaje });
-  } else {
-      res.status(404).json({ message: delViaje.message });
-  }
+//   if (delViaje.success) {
+//       res.status(200).json({ message: delViaje.message, viaje: delViaje });
+//   } else {
+//       res.status(404).json({ message: delViaje.message });
+//   }
 
-  } catch (error) {
-      console.error(error);
-      res.status(400).json({ error: 'Error al eliminar el viaje' });
-  }
-};
+//   } catch (error) {
+//       console.error(error);
+//       res.status(400).json({ error: 'Error al eliminar el viaje' });
+//   }
+// };
 
 const DeleteViajeCita = async (req, res) => {
   const idCita = req.params.idCita;
@@ -160,4 +160,4 @@ const UpdateViajeCita = async (req, res) => {
   }
 };
 
-module.exports = { DeleteViajeCita, UpdateViajeCita, postViaje, getAllviajess, deleteViaje, updateViaje, getAllviajessById,getAllRelacionViajesCitas };
+module.exports = { DeleteViajeCita, UpdateViajeCita, postViaje, getAllviajess, updateViaje, getAllviajessById,getAllRelacionViajesCitas };
