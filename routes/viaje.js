@@ -26,7 +26,7 @@ router.get('/:idViaje',   getAllviajessById);
 
 //router.delete('/:idViaje',  deleteViaje);
 
-router.delete('/cita/:idCita',  DeleteViajeCita);
+router.delete('/:idCita',  DeleteViajeCita);
 
 router.put('/', UpdateViajeCita);
 
