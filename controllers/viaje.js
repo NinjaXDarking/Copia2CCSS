@@ -1,5 +1,5 @@
 const viaje = require('../models/viaje');
-const { UpdateViajeCitaM, createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitasM } = require('../models/viaje');
+const { DeleteViajeCitaM, UpdateViajeCitaM, createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitasM } = require('../models/viaje');
 
 const postViaje = async (req, res) => {
     const viajeData = req.body;
@@ -98,6 +98,23 @@ const deleteViaje = async (req, res) => {
   }
 };
 
+const DeleteViajeCita = async (req, res) => {
+  const idCita = req.params.idCita;
+  try {
+    const DelViajeCita = await DeleteViajeCitaM(idCita);
+
+  if (DelViajeCita.success) {
+      res.status(200).json({ message: DelViajeCita.message, DelViajeCita: DelViajeCita });
+  } else {
+      res.status(404).json({ message: DelViajeCita.message });
+  }
+
+  } catch (error) {
+      console.error(error);
+      res.status(400).json({ error: 'Error al eliminar el ViajeCita' });
+  }
+};
+
 const updateViaje = async (req, res) => {
   const idViaje = req.params.idViaje;
   const { idUnidad, idChofer, FechaInicio, LugarSalida, idUbicacionDestino, EstadoViaje, Condicion, EstadoCita, FechaCita, HoraCita, Traslado, Camilla, horaInicioViaje, fechaInicioViaje, horaFinViaje, kilometrajeFinal, horasExtras, viaticos } = req.body; 
@@ -143,4 +160,4 @@ const UpdateViajeCita = async (req, res) => {
   }
 };
 
-module.exports = { UpdateViajeCita, postViaje, getAllviajess, deleteViaje, updateViaje, getAllviajessById,getAllRelacionViajesCitas };
+module.exports = { DeleteViajeCita, UpdateViajeCita, postViaje, getAllviajess, deleteViaje, updateViaje, getAllviajessById,getAllRelacionViajesCitas };

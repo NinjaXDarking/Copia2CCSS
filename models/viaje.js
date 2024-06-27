@@ -148,6 +148,29 @@ const eliminateViaje = async (idViaje) => {
     }
 }
 
+const DeleteViajeCitaM = async (idCita) => {
+    let connection
+
+    try {
+        connection = await MySQLConnection();
+        const [rows, fields] = await connection.execute('CALL SP_DeleteViajeCita(?);', [idCita]);
+
+        if (rows.affectedRows === 0) {
+            console.log('No se enconto ningun ViajeCita');
+            return { success: false, message: 'No se enconto ningun ViajeCita' };
+        } else {
+            console.log('El ViajeCita se elimino exitosamente');
+            return { success: true, message: 'El ViajeCita se elimino exitosamente' };
+        }
+        
+    } catch (error) {
+        console.error('Error al eliminar el viaje:', error);
+        throw new Error('Error al eliminar el viaje');
+    } finally {
+        connection.close()
+    }
+}
+
 const updatingViaje = async (idViaje, viajeData) => {
     let connection;
     try {
@@ -237,4 +260,4 @@ const UpdateViajeCitaM = async (idViaje, idCita) => {
     }
 };
 
-module.exports = { UpdateViajeCitaM, createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitasM};
+module.exports = { DeleteViajeCitaM, UpdateViajeCitaM, createViaje, getAllviajes, eliminateViaje, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitasM};
