@@ -11,7 +11,7 @@ const createViaje = async (viajeData) => {
         viajeData.idUnidad,
         viajeData.IdChofer,
         viajeData.EstadoViaje,
-        viajeData.fechaCreacion,
+        viajeData.fechaInicioViaje,
         viajeData.idUsuario
       ]);
 
