@@ -20,8 +20,9 @@ class Server{
      this.especialidadPath='/api/especialidad'
      this.motivoValePath='/api/motivoVale'
      this.servicio='/api/servicios'
-     this.destino ='/api/destinos'
+     this.rutas ='/api/rutas'
      this.unidad= '/api/unidades'
+     this.chofer= '/api/chofer'
      this.unidadProgramaticaPatch= '/api/unidadProgramatica'
      this.estadoUnidad= '/api/estadounidad'
      this.tipoRecurso= '/api/tiporecurso'
@@ -54,8 +55,9 @@ this.app.use(this.valesPath,require('../routes/valesRoutes'));
 this.app.use(this.acompanantePath,require('../routes/funcionariosRoute'));
 this.app.use(this.especialidadPath,require('../routes/EspecialidadMedica'));
 this.app.use(this.servicio,require('../routes/ServicioRoute'));
-this.app.use(this.destino,require('../routes/destinoRoute'));
+this.app.use(this.rutas,require('../routes/RutaRoute'));
 this.app.use(this.unidad, require('../routes/unidades'));
+this.app.use(this.chofer, require('../routes/chofer'));
 this.app.use(this.estadoUnidad,require('../routes/estadounidad'));
 this.app.use(this.tipoRecurso,require('../routes/tiporecurso'));
 this.app.use(this.frecuenciaCambio,require('../routes/frecuenciacambio'));
