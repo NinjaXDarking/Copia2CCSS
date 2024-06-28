@@ -163,7 +163,11 @@ const UpdateViajeCita = async (req, res) => {
       // if (!viajeData.FechaInicio) {
       //   viajeData.FechaInicio = new Date();
       // }
-    const newViajeCita = await UpdateViajeCitaM(viajeCitaData.idViaje,viajeCitaData.idCita);
+    let newViajeCita
+    for (let i = 0; i < viajeData.Citas.length; i++) {
+        newViajeCita = await UpdateViajeCitaM(viajeCitaData.idViaje[i],viajeCitaData.idCita[i]);
+    }
+    
 
     if (newViajeCita.success) {
         res.status(200).json({ message: newViajeCita.message, newViajeCita: newViajeCita });
