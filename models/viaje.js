@@ -260,4 +260,36 @@ const UpdateViajeCitaM = async (idViaje, idCita) => {
     }
 };
 
-module.exports = { DeleteViajeCitaM, UpdateViajeCitaM, createViaje, getAllviajes, updatingViaje, getAllviajesById, putViajeCitas, getAllRelacionViajesCitasM};
+
+const getIdViajesByIdUnidadM = async (idUnidad) => {
+    let connection
+    try {
+        connection = await MySQLConnection();
+        const [IdViaje] = await connection.execute('SELECT idViaje FROM Viaje WHERE idUnidad = ? AND EstadoViaje = "Iniciado"  order by idViaje desc limit 1 ;', [idUnidad]);
+
+        if (IdViaje.length === 0) {
+            console.log('No se enconto ningun IdViaje');
+            return { success: false, message: 'No se enconto ningun IdViaje' };
+        } else {
+            console.log('El IdViaje se encontro exitosamente');
+            return { success: true, viaje: IdViaje};
+        }
+
+    } catch (error) {
+        console.error('Error al obtener el IdViaje:', error);
+        throw new Error('Error al obtener el IdViaje');
+    } finally {
+        connection.close()
+    }
+}
+
+module.exports = { 
+    DeleteViajeCitaM, 
+    UpdateViajeCitaM, 
+    createViaje, 
+    getAllviajes, 
+    updatingViaje, 
+    getAllviajesById, 
+    getIdViajesByIdUnidadM,
+    putViajeCitas, 
+    getAllRelacionViajesCitasM};

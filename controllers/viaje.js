@@ -62,6 +62,23 @@ const getAllviajess = async (req, res) => {
   }
 };
 
+const getIdViajesByIdUnidad = async (req, res) => {
+  const idUnidad = req.params.idUnidad;
+  try {
+    const IdViajeData = await viaje.getIdViajesByIdUnidadM(idUnidad);
+
+  if (IdViajeData.success) {
+      res.status(200).json({ message: IdViajeData.message, IdViajeData: IdViajeData });
+  } else {
+      res.status(404).json({ message: IdViajeData.message });
+  }  
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener los idUnidad' });
+  }
+};
+
 const getAllviajessById = async (req, res) => {
   const idViaje = req.params.idViaje;
   console.log(`id controllers get: ${idViaje}`);
@@ -160,4 +177,12 @@ const UpdateViajeCita = async (req, res) => {
   }
 };
 
-module.exports = { DeleteViajeCita, UpdateViajeCita, postViaje, getAllviajess, updateViaje, getAllviajessById,getAllRelacionViajesCitas };
+module.exports = { 
+  DeleteViajeCita, 
+  UpdateViajeCita, 
+  postViaje, 
+  getAllviajess, 
+  updateViaje, 
+  getAllviajessById,
+  getIdViajesByIdUnidad,
+  getAllRelacionViajesCitas };
