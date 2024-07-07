@@ -9,7 +9,7 @@ const {
     postViaje,
     getIdViajesByIdUnidad,
     //deleteViaje,
-    updateViaje,
+    //updateViaje,
     UpdateViajeCita,
     DeleteViajeCita,
     getAllviajessById
@@ -23,8 +23,8 @@ router.post('/',  postViaje);
 router.get('/:idViaje',   getAllviajessById);
 //router.delete('/:idViaje',  deleteViaje);
 router.delete('/cita/:idCita',  DeleteViajeCita);
-router.put('/', UpdateViajeCita);
-router.put('/:idViaje',  updateViaje);
+router.put('/:idViaje', UpdateViajeCita);
+//router.put('/',  updateViaje);
 
 module.exports=router; 
 

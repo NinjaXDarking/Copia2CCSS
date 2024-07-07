@@ -171,71 +171,71 @@ const DeleteViajeCitaM = async (idCita) => {
     }
 }
 
-const updatingViaje = async (idViaje, viajeData) => {
-    let connection;
-    try {
-        connection = await MySQLConnection();
-        console.log(`id models update: ${idViaje}`);
-        console.log(`nuevos datos models:`, viajeData);
+// const updatingViaje = async (idViaje, viajeData) => {
+//     let connection;
+//     try {
+//         connection = await MySQLConnection();
+//         console.log(`id models update: ${idViaje}`);
+//         console.log(`nuevos datos models:`, viajeData);
 
-        // Definir los campos válidos que existen en la tabla
-        const validFields = [
-            'idUnidad', 
-            'idChofer', 
-            'FechaInicio', 
-            'LugarSalida', 
-            'idUbicacionDestino', 
-            'EstadoViaje', 
-            'Condicion', 
-            'EstadoCita', 
-            'FechaCita', 
-            'HoraCita', 
-            'Traslado',
-            'Camilla',
-            'horaInicioViaje', 
-            'fechaInicioViaje',
-            'horaFinViaje', 
-            'kilometrajeFinal', 
-            'horasExtras', 
-            'viaticos'
-        ];
+//         // Definir los campos válidos que existen en la tabla
+//         const validFields = [
+//             'idUnidad', 
+//             'idChofer', 
+//             'FechaInicio', 
+//             'LugarSalida', 
+//             'idUbicacionDestino', 
+//             'EstadoViaje', 
+//             'Condicion', 
+//             'EstadoCita', 
+//             'FechaCita', 
+//             'HoraCita', 
+//             'Traslado',
+//             'Camilla',
+//             'horaInicioViaje', 
+//             'fechaInicioViaje',
+//             'horaFinViaje', 
+//             'kilometrajeFinal', 
+//             'horasExtras', 
+//             'viaticos'
+//         ];
 
-        let updateFields = '';
-        const updateValues = [];
+//         let updateFields = '';
+//         const updateValues = [];
 
-        for (const key in viajeData) {
-            if (viajeData.hasOwnProperty(key) && validFields.includes(key)) {
-                updateFields += `${key} = ?, `;
-                updateValues.push(viajeData[key]);
-            }
-        }
+//         for (const key in viajeData) {
+//             if (viajeData.hasOwnProperty(key) && validFields.includes(key)) {
+//                 updateFields += `${key} = ?, `;
+//                 updateValues.push(viajeData[key]);
+//             }
+//         }
 
-        if (updateFields === '') {
-            throw new Error('Los campos no son validos');
-        }
+//         if (updateFields === '') {
+//             throw new Error('Los campos no son validos');
+//         }
 
-        updateFields = updateFields.slice(0, -2);
+//         updateFields = updateFields.slice(0, -2);
 
-        updateValues.push(idViaje);
+//         updateValues.push(idViaje);
 
-        const query = `UPDATE Viaje SET ${updateFields} WHERE idViaje = ?`;
+//         const query = `UPDATE Viaje SET ${updateFields} WHERE idViaje = ?`;
 
-        const [rows, fields] = await connection.execute(query, updateValues);
+//         const [rows, fields] = await connection.execute(query, updateValues);
 
-        if (rows.affectedRows === 0) {
-            console.log('No se encontró ningún viaje');
-            return { success: false, message: 'No se encontró ningún viaje' };
-        } else {
-            console.log('El viaje se actualizó correctamente');
-            return { success: true, message: 'El viaje se actualizó correctamente' };
-        }
-    } catch (error) {
-        console.error('Error al actualizar el viaje:', error);
-        throw new Error('Error al actualizar el viaje');
-    } finally {
-        if (connection) await connection.end();
-    }
-};
+//         if (rows.affectedRows === 0) {
+//             console.log('No se encontró ningún viaje');
+//             return { success: false, message: 'No se encontró ningún viaje' };
+//         } else {
+//             console.log('El viaje se actualizó correctamente');
+//             return { success: true, message: 'El viaje se actualizó correctamente' };
+//         }
+//     } catch (error) {
+//         console.error('Error al actualizar el viaje:', error);
+//         throw new Error('Error al actualizar el viaje');
+//     } finally {
+//         if (connection) await connection.end();
+//     }
+// };
 
 const UpdateViajeCitaM = async (idViaje, idCita) => {
     let connection;
@@ -288,7 +288,7 @@ module.exports = {
     UpdateViajeCitaM, 
     createViaje, 
     getAllviajes, 
-    updatingViaje, 
+    //updatingViaje, 
     getAllviajesById, 
     getIdViajesByIdUnidadM,
     putViajeCitas, 

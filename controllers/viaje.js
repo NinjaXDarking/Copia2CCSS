@@ -4,7 +4,7 @@ const {
   UpdateViajeCitaM,
   createViaje,
   getAllviajes,
-  updatingViaje,
+  //updatingViaje,
   getAllviajesById,
   putViajeCitas,
   getAllRelacionViajesCitasM,
@@ -144,62 +144,62 @@ const DeleteViajeCita = async (req, res) => {
   }
 };
 
-const updateViaje = async (req, res) => {
-  const idViaje = req.params.idViaje;
-  const {
-    idUnidad,
-    idChofer,
-    FechaInicio,
-    LugarSalida,
-    idUbicacionDestino,
-    EstadoViaje,
-    Condicion,
-    EstadoCita,
-    FechaCita,
-    HoraCita,
-    Traslado,
-    Camilla,
-    horaInicioViaje,
-    fechaInicioViaje,
-    horaFinViaje,
-    kilometrajeFinal,
-    horasExtras,
-    viaticos,
-  } = req.body;
+// const updateViaje = async (req, res) => {
+//   const idViaje = req.params.idViaje;
+//   const {
+//     idUnidad,
+//     idChofer,
+//     FechaInicio,
+//     LugarSalida,
+//     idUbicacionDestino,
+//     EstadoViaje,
+//     Condicion,
+//     EstadoCita,
+//     FechaCita,
+//     HoraCita,
+//     Traslado,
+//     Camilla,
+//     horaInicioViaje,
+//     fechaInicioViaje,
+//     horaFinViaje,
+//     kilometrajeFinal,
+//     horasExtras,
+//     viaticos,
+//   } = req.body;
 
-  console.log(`id controllers updating: ${idViaje}`);
-  try {
-    const updViaje = await updatingViaje(idViaje, {
-      idUnidad,
-      idChofer,
-      FechaInicio,
-      LugarSalida,
-      idUbicacionDestino,
-      EstadoViaje,
-      Condicion,
-      EstadoCita,
-      FechaCita,
-      HoraCita,
-      Traslado,
-      Camilla,
-      horaInicioViaje,
-      fechaInicioViaje,
-      horaFinViaje,
-      kilometrajeFinal,
-      horasExtras,
-      viaticos,
-    });
+//   console.log(`id controllers updating: ${idViaje}`);
+//   try {
+//     const updViaje = await updatingViaje(idViaje, {
+//       idUnidad,
+//       idChofer,
+//       FechaInicio,
+//       LugarSalida,
+//       idUbicacionDestino,
+//       EstadoViaje,
+//       Condicion,
+//       EstadoCita,
+//       FechaCita,
+//       HoraCita,
+//       Traslado,
+//       Camilla,
+//       horaInicioViaje,
+//       fechaInicioViaje,
+//       horaFinViaje,
+//       kilometrajeFinal,
+//       horasExtras,
+//       viaticos,
+//     });
 
-    if (updViaje.success) {
-      res.status(200).json({ message: updViaje.message, viaje: updViaje });
-    } else {
-      res.status(404).json({ message: updViaje.message, success: false });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(400).json({ error: "Error al actualizar el viaje" });
-  }
-};
+//     if (updViaje.success) {
+//       res.status(200).json({ message: updViaje.message, viaje: updViaje });
+//     } else {
+//       res.status(404).json({ message: updViaje.message, success: false });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(400).json({ error: "Error al actualizar el viaje" });
+//   }
+// };
 
 const UpdateViajeCita = async (req, res) => {
   const viajeCitaData = req.body;
@@ -236,7 +236,7 @@ module.exports = {
   UpdateViajeCita,
   postViaje,
   getAllviajess,
-  updateViaje,
+  //updateViaje,
   getAllviajessById,
   getIdViajesByIdUnidad,
   getAllRelacionViajesCitas,
