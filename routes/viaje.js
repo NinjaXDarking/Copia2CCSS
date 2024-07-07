@@ -23,7 +23,7 @@ router.post('/',  postViaje);
 router.get('/:idViaje',   getAllviajessById);
 //router.delete('/:idViaje',  deleteViaje);
 router.delete('/cita/:idCita',  DeleteViajeCita);
-router.put('/:idViaje', UpdateViajeCita);
+router.put('/actualizar/viajeCita', UpdateViajeCita);
 //router.put('/',  updateViaje);
 
 module.exports=router; 
