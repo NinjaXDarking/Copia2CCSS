@@ -227,7 +227,7 @@ const UpdateViajeCita = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: "Error al registrar el viaje" });
+    res.status(400).json({ error: "Error al actualizar ViajeCita" });
   }
 };
 
