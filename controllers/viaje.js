@@ -211,7 +211,7 @@ const UpdateViajeCita = async (req, res) => {
     //   viajeData.FechaInicio = new Date();
     // }
     let newViajeCita;
-    for (let i = 0; i < viajeData.Citas.length; i++) {
+    for (let i = 0; i < viajeCitaData.Citas.length; i++) {
       newViajeCita = await UpdateViajeCitaM(
         viajeCitaData.idViaje,
         viajeCitaData.Citas[i].Idcita
