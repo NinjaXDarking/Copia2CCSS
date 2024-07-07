@@ -204,7 +204,7 @@ const DeleteViajeCita = async (req, res) => {
 const UpdateViajeCita = async (req, res) => {
   const viajeCitaData = req.body;
   try {
-    if (viajeCitaData.idCita < 1) {
+    if (viajeCitaData.Citas.length < 1) {
       res.status(404).json({ message: "No seleccionaste ninguna cita" });
     }
     // if (!viajeData.FechaInicio) {
