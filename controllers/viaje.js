@@ -143,7 +143,7 @@ const updateViaje = async (req, res) => {
   if (updViaje.success) {
       res.status(200).json({ message: updViaje.message, viaje: updViaje });
   } else {
-      res.status(404).json({ message: updViaje.message });
+      res.status(404).json({ message: updViaje.message, success: false });
   }  
 
   } catch (error) {

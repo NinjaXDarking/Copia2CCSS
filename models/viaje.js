@@ -246,8 +246,8 @@ const UpdateViajeCitaM = async (idViaje, idCita) => {
           [idViaje,idCita]);
   
       if (ViajeCita.length === 0) {
-          console.log('No se enconto ningun ViajeCita');
-          return { success: false, message: 'No se enconto ningun ViajeCita' };
+          console.log('No se encontro ningun ViajeCita');
+          return { success: false, message: 'No se encontro ningun ViajeCita' };
       } else {
           console.log('El ViajeCita se encontro exitosamente');
           return { success: true, ViajeCita: ViajeCita };
@@ -268,8 +268,8 @@ const getIdViajesByIdUnidadM = async (idUnidad) => {
         const [IdViaje] = await connection.execute('SELECT idViaje FROM Viaje WHERE idUnidad = ? AND EstadoViaje = "Iniciado"  order by idViaje desc limit 1 ;', [idUnidad]);
 
         if (IdViaje.length === 0) {
-            console.log('No se enconto ningun IdViaje');
-            return { success: false, message: 'No se enconto ningun IdViaje' };
+            console.log('No se encontro ningun IdViaje');
+            return { success: false, message: 'No se encontro ningun IdViaje' };
         } else {
             console.log('El IdViaje se encontro exitosamente');
             return { success: true, viaje: IdViaje};
